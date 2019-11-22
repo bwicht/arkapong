@@ -13,7 +13,13 @@ var Breakout = new Phaser.Class({
         this.paddleTwo;
         this.ball;
         this.ballTwo;
-        this.cursorKeys;
+
+        this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+        isDKeyPressed = cursorKeys.D.isDown;
+        isAKeyPressed = cursorKeys.A.isDown;
+        isLeftKeyPressed = cursorKeys.left.isDown;
+        isRightKeyPressed = cursorKeys.right.isDown;
     },
 
     preload: function ()
@@ -23,6 +29,8 @@ var Breakout = new Phaser.Class({
 
     create: function ()
     {
+
+        
         //  Enable world bounds, but disable the floor
         this.physics.world.setBoundsCollision(true, true, true, false);
 
@@ -53,6 +61,9 @@ var Breakout = new Phaser.Class({
         this.ballTwo.setData('onPaddle', true);
         this.paddleTwo = this.physics.add.image(400, 20,'assets', 'paddle1').setImmovable();
 
+
+        
+
         //  Our colliders
 
         this.physics.add.collider(this.ballTwo, this.bricks, this.hitBrick, null, this);
@@ -61,28 +72,22 @@ var Breakout = new Phaser.Class({
         this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
-        //  Input events
+        //  Input event
+        
 
-        //this.cursorKeys = this.input.keyboard.createCursorKeys();
+        if(isRightKeyPressed){
+            paddle.setVelocityX(100)
+        }
+        if (isLeftKeyPressed){
+            paddle.setVelocityX(-100)
+        }
 
-        // var isDKeyPressed = cursorKeys.D.isDown;
-        // var isAKeyPressed = cursorKeys.A.isDown;
-        // var isLeftKeyPressed = cursorKeys.left.isDown;
-        // var isRightKeyPressed = cursorKeys.right.isDown;
-
-        // if(isRightKeyPressed===true){
-        //     paddle.setVelocityX(100)
-        // }
-        // if (isLeftKeyPressed===true){
-        //     paddle.setVelocityX(-100)
-        // }
-
-        // if(isAKeyPressed==true){
-        //     paddleTwo.setVelocityX(-100)
-        // }
-        // if(isDKeyPressed==true){
-        //     paddleTwo.set.setVelocityX(100)
-        // }
+        if(isAKeyPressed){
+            paddleTwo.setVelocityX(-100)
+        }
+        if(isDKeyPressed){
+            paddleTwo.set.setVelocityX(100)
+        }
 
         /*this.input.on('pointermove', function (pointer) {
 
@@ -156,10 +161,17 @@ var Breakout = new Phaser.Class({
             //  Add a little random X to stop it bouncing straight up!
             ball.setVelocityX(2 + Math.random() * 8);
         }
+
+        
+
+        
     },
 
     update: function ()
     {
+
+        
+        
         // var isDKeyPressed = cursorKeys.D.isDown;
         // var isAKeyPressed = cursorKeys.A.isDown;
         // var isLeftKeyPressed = cursorKeys.left.isDown;
@@ -186,13 +198,13 @@ var Breakout = new Phaser.Class({
         if (this.ball.y > 800 || this.ballTwo.y > 800)
         {
             score1 += 1;
-            scoreText.setText("Score:" + score + score2);
+            scoreText.setText("Score:" + score1 + score2);
             this.resetBall();
         }
         if (this.ball.y < 0 || this.ballTwo.y < 0){
 
             score2 += 1;
-            scoreText.setText("Score:" + score + score2);
+            scoreText.setText("Score:" + score1 + score2);
             this.resetBallTwo();
     }
 
