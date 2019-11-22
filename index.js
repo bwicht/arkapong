@@ -114,11 +114,9 @@ var Breakout = new Phaser.Class({
 
     
 
-    hitBrick: function (ball, invisibleSquare,invisibleSquareTwo)
-    {
-        this.invisibleSquare.visible = false;
-        this.invisibleSquareTwo.visible = false;
-        this.bricks.visible = false;
+    hitBrick: function ()
+    {   
+       Phaser.Actions.Call(this.bricks.getChildren(),v=>v.visible = false)
     },
 
 
