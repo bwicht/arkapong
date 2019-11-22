@@ -75,22 +75,22 @@ var Breakout = new Phaser.Class({
         this.ball = this.physics.add.image(400, 740, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ball.setData('onPaddle', true);
 
-        paddle = this.physics.add.image(400, 780, 'paddle1').setImmovable();
+        this.paddle = this.physics.add.image(400, 780, 'paddle1').setImmovable();
 
 
         this.ballTwo = this.physics.add.image(400, 60, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ballTwo.setData('onPaddle', true);
-        paddleTwo = this.physics.add.image(400, 20, 'paddle2').setImmovable();
+        this.paddleTwo = this.physics.add.image(400, 20, 'paddle2').setImmovable();
 
         //  Our colliders
 
-        this.physics.add.collider(this.ballTwo, this.bricks, this.hitBrick, null, this);
-        this.physics.add.collider(this.ballTwo, paddleTwo, this.hitPaddle, null, this);
-        this.physics.add.collider(this.ball, paddleTwo, this.hitPaddle, null, this);
+        this.physics.add.collider(this.ballTwo, this.bricks, null, null, this);
+        this.physics.add.collider(this.ballTwo, this.paddleTwo, this.hitPaddle, null, this);
+        this.physics.add.collider(this.ball, this.paddleTwo, this.hitPaddle, null, this);
 
-        this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
-        this.physics.add.collider(this.ball, paddle, this.hitPaddle, null, this);
-        this.physics.add.collider(this.ballTwo, paddle, this.hitPaddle, null, this);
+        this.physics.add.collider(this.ball, this.bricks, null, null, this);
+        this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
+        this.physics.add.collider(this.ballTwo, this.paddle, this.hitPaddle, null, this);
 
         this.physics.add.collider(this.ball, this.invisibleSquare,this.hitBrick,null,this);
         this.physics.add.collider(this.ballTwo, this.invisibleSquare,this.hitBrick,null,this);
@@ -104,25 +104,7 @@ var Breakout = new Phaser.Class({
         space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-        //     this.paddle.x = Phaser.Math.Clamp(pointer.x, 52, 748);
-            
 
-        //     if (this.ball.getData('onPaddle'))
-        //     {
-        //         this.ball.x = this.paddle.x;
-        //     }
-
-        // }, this);
-
-        // this.input.on('pointerup', function (pointer) {
-
-        //     if (this.ball.getData('onPaddle'))
-        //     {
-        //         this.ball.setVelocity(-75, -300);
-        //         this.ball.setData('onPaddle', false);
-        //     }
-
-        // }, this); 
 
         
        
@@ -134,26 +116,27 @@ var Breakout = new Phaser.Class({
 
     hitBrick: function ()
     {   
-       Phaser.Actions.Call(this.bricks.getChildren(),b =>b.visible ? b.visible = false : b.visible = true)
+       Phaser.Actions.Call(this.bricks.getChildren(),b =>b.visible ? b.visible = false : b.visible = true);
     },
 
 
     resetBall: function ()
     {
         this.ball.setVelocity(0);
-        this.ball.setPosition(this.paddle.x, 750);
+        this.ball.setPosition(this.paddle.x, 740);
         this.ball.setData('onPaddle', true);
     },
 
     resetBallTwo: function(){
         this.ball.setVelocity(0);
-        this.ball.setPosition(this.paddleTwo.x, 50);
+        this.ball.setPosition(this.paddleTwo.x, 60);
         this.ball.setData('onPaddle', true);
     },
 
     resetLevel: function ()
     {
         this.resetBall();
+        this.resetBallTwo();
 
         this.bricks.children.each(function (brick) {
 
@@ -162,29 +145,29 @@ var Breakout = new Phaser.Class({
         });
     },
 
-    hitPaddle: function (ball, paddle)
-    {
-        var diff = 0;
+    // hitPaddle: function (ball, paddle)
+    // {
+    //     var diff = 0;
 
-        if (ball.x < paddle.x)
-        {
-            //  Ball is on the left-hand side of the paddle
-            diff = paddle.x - ball.x;
-            ball.setVelocityX(-10 * diff);
-        }
-        else if (ball.x > paddle.x)
-        {
-            //  Ball is on the right-hand side of the paddle
-            diff = ball.x -paddle.x;
-            ball.setVelocityX(10 * diff);
-        }
-        else
-        {
-            //  Ball is perfectly in the middle
-            //  Add a little random X to stop it bouncing straight up!
-            ball.setVelocityX(2 + Math.random() * 8);
-        }
-    },
+    //     if (ball.x < paddle.x)
+    //     {
+    //         //  Ball is on the left-hand side of the paddle
+    //         diff = paddle.x - ball.x;
+    //         ball.setVelocityX(-10 * diff);
+    //     }
+    //     else if (ball.x > paddle.x)
+    //     {
+    //         //  Ball is on the right-hand side of the paddle
+    //         diff = ball.x -paddle.x;
+    //         ball.setVelocityX(10 * diff);
+    //     }
+    //     else
+    //     {
+    //         //  Ball is perfectly in the middle
+    //         //  Add a little random X to stop it bouncing straight up!
+    //         ball.setVelocityX(2 + Math.random() * 8);
+    //     }
+    // },
 
     update: function ()
     {
@@ -199,20 +182,20 @@ var Breakout = new Phaser.Class({
 
         }
 
-        paddle.setVelocityX(0);
-        paddleTwo.setVelocityX(0);
+        this.paddle.setVelocityX(0);
+        this.paddleTwo.setVelocityX(0);
 
         if(left.isDown){
-            paddle.setVelocityX(-400);
+            this.paddle.setVelocityX(-400);
         }
         if(right.isDown){
-            paddle.setVelocityX(400);
+            this.paddle.setVelocityX(400);
         }
         if(a.isDown){
-            paddleTwo.setVelocityX(-400);
+            this.paddleTwo.setVelocityX(-400);
         }
         if(d.isDown){
-            paddleTwo.setVelocityX(400);
+            this.paddleTwo.setVelocityX(400);
         }
         
     
@@ -224,12 +207,14 @@ var Breakout = new Phaser.Class({
         {
             score1++;
             scoreText.setText("Score:" + score1 + "vs" + score2);
+            this.resetBall();
             
         }
         if (this.ball.y < 0 || this.ballTwo.y < 0)
         {
             score2++;
             scoreText.setText("Score:" + score1 + "vs" + score2);
+            this.resetBallTwo();
             
     }
 
