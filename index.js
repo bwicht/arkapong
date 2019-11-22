@@ -130,13 +130,13 @@ var Breakout = new Phaser.Class({
 
     resetBall: function ()
     {
-        this.ball.setVelocity(0);
+        this.ball.setVelocity(0.5);
         this.ball.setPosition(this.paddle.x, 740);
         this.ball.setData('onPaddle', true);
     },
 
     resetBallTwo: function(){
-        this.ballTwo.setVelocity(0);
+        this.ballTwo.setVelocity(0.5);
         this.ballTwo.setPosition(this.paddleTwo.x, 60);
         this.ballTwo.setData('onPaddle', true);
     },
