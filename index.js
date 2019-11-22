@@ -128,9 +128,9 @@ var Breakout = new Phaser.Class({
     },
 
     resetBallTwo: function(){
-        this.ball.setVelocity(0);
-        this.ball.setPosition(this.paddleTwo.x, 60);
-        this.ball.setData('onPaddle', true);
+        this.ballTwo.setVelocity(0);
+        this.ballTwo.setPosition(this.paddleTwo.x, 60);
+        this.ballTwo.setData('onPaddle', true);
     },
 
     resetLevel: function ()
@@ -145,29 +145,6 @@ var Breakout = new Phaser.Class({
         });
     },
 
-    // hitPaddle: function (ball, paddle)
-    // {
-    //     var diff = 0;
-
-    //     if (ball.x < paddle.x)
-    //     {
-    //         //  Ball is on the left-hand side of the paddle
-    //         diff = paddle.x - ball.x;
-    //         ball.setVelocityX(-10 * diff);
-    //     }
-    //     else if (ball.x > paddle.x)
-    //     {
-    //         //  Ball is on the right-hand side of the paddle
-    //         diff = ball.x -paddle.x;
-    //         ball.setVelocityX(10 * diff);
-    //     }
-    //     else
-    //     {
-    //         //  Ball is perfectly in the middle
-    //         //  Add a little random X to stop it bouncing straight up!
-    //         ball.setVelocityX(2 + Math.random() * 8);
-    //     }
-    // },
 
     update: function ()
     {
