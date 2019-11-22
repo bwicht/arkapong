@@ -19,6 +19,9 @@ var Breakout = new Phaser.Class({
         this.right;
         this.a;
         this.d;
+        this.score1;
+        this.score2;
+        this.space;
 
     },
 
@@ -61,13 +64,13 @@ var Breakout = new Phaser.Class({
 
 
 
-        this.ball = this.physics.add.image(400, 780, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
+        this.ball = this.physics.add.image(400, 750, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ball.setData('onPaddle', true);
 
         paddle = this.physics.add.image(400, 780, 'assets', 'paddle1').setImmovable();
 
 
-        this.ballTwo = this.physics.add.image(400, 20, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
+        this.ballTwo = this.physics.add.image(400, 50, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ballTwo.setData('onPaddle', true);
         paddleTwo = this.physics.add.image(400, 20,'assets', 'paddle1').setImmovable();
 
@@ -86,13 +89,9 @@ var Breakout = new Phaser.Class({
         right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         a = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-    
-
-        // this.input.on('pointermove', function (pointer) {
-
-        //     //  Keep the paddle within the game
         //     this.paddle.x = Phaser.Math.Clamp(pointer.x, 52, 748);
             
 
@@ -112,8 +111,12 @@ var Breakout = new Phaser.Class({
         //     }
 
         // }, this); 
+
+        
        
     },
+
+
 
     
 
@@ -174,20 +177,30 @@ var Breakout = new Phaser.Class({
     update: function ()
     {
 
+        if(space.isDown){
+            {
+                this.ball.setVelocity(-75, -300);
+                this.ballTwo.setVelocity(75, 300);
+                this.ball.setData('onPaddle', false);
+                this.ballTwo.setData('onPaddle', false);
+                }
+
+        }
+
         paddle.setVelocityX(0);
         paddleTwo.setVelocityX(0);
 
         if(left.isDown){
-            paddle.setVelocityX(-300);
+            paddle.setVelocityX(-400);
         }
         if(right.isDown){
-            paddle.setVelocityX(300);
+            paddle.setVelocityX(400);
         }
         if(a.isDown){
-            paddleTwo.setVelocityX(-300);
+            paddleTwo.setVelocityX(-400);
         }
         if(d.isDown){
-            paddleTwo.setVelocityX(300);
+            paddleTwo.setVelocityX(400);
         }
         
     
@@ -197,15 +210,15 @@ var Breakout = new Phaser.Class({
 
         if (this.ball.y > 800 || this.ballTwo.y > 800)
         {
-            score1 += 1;
+            score1++;
             scoreText.setText("Score:" + score1 + "vs" + score2);
             this.resetBall();
         }
         if (this.ball.y < 0 || this.ballTwo.y < 0)
         {
-            score2 += 1;
+            score2++;
             scoreText.setText("Score:" + score1 + "vs" + score2);
-            this.resetBall();
+            this.resetBallTwo();
     }
 
     }
