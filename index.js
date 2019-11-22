@@ -1,3 +1,7 @@
+var value_x = Phaser.Math.Between(200, 600);
+var value_y = Phaser.Math.Between(200, 600);
+
+
 var Breakout = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -55,12 +59,25 @@ var Breakout = new Phaser.Class({
         this.physics.world.setBoundsCollision(true, true, false, false);
 
          //Create the bricks in a 10x6 grid
-        this.bricks = this.physics.add.staticGroup({
+        /* this.bricks = this.physics.add.staticGroup({
             key: 'psyBrick1',
             frameQuantity: 50,
             gridAlign: { width: 10, height: 5, cellWidth: 64, cellHeight: 32, x: config.width/7, y: config.height/2.5 },
             visible: true
-        })
+        }) */
+        this.bricks = this.physics.add.staticImage(value_x,value_y,'psyBrick2')
+        this.bricks.visible = true;
+        this.bricksTwo = this.physics.add.staticImage(value_x + 100,value_y + 100,'psyBrick2')
+        this.bricksTwo.visible = true;
+        this.bricksThree = this.physics.add.staticImage(value_x + 500,value_y+232,'psyBrick2')
+        this.bricksThree.visible = true;
+        this.bricksFour = this.physics.add.staticImage(value_x +232,value_y-33,'psyBrick2')
+        this.bricksFour.visible = true;
+        this.bricksFive = this.physics.add.staticImage(value_x + 12,value_y-63,'psyBrick2')
+        this.bricksFive.visible = true;
+        this.bricksSix = this.physics.add.staticImage(value_x -98,value_y+200,'psyBrick2')
+        this.bricksSix.visible = true;
+
 
 
         
@@ -114,9 +131,34 @@ var Breakout = new Phaser.Class({
 
     
 
-    hitBrick: function ()
+    hitBrick: function (bricks)
     {   
-       Phaser.Actions.Call(this.bricks.getChildren(),b =>b.visible ? b.visible = false : b.visible = true);
+       //Phaser.Actions.Call(this.bricks.getChildren(),b =>b.visible ? b.visible = false : b.visible = true);
+       if(this.bricks.visible = true){
+           this.bricks.visible=false
+       }else{
+           this.bricks.visible=true;
+       }
+       if(this.bricksTwo.visible = true){
+        this.bricksTwo.visible=false
+    }else{
+        this.bricksTwo.visible=true;
+    }
+    if(this.bricksThree.visible = true){
+        this.bricksThree.visible=false
+    }else{
+        this.bricksThree.visible=true;
+    }
+    if(this.bricksFour.visible = true){
+        this.bricksFour.visible=false
+    }else{
+        this.bricksFour.visible=true;
+    }
+    if(this.bricksFive.visible = true){
+        this.bricksFive.visible=false
+    }else{
+        this.bricksFive.visible=true;
+    }
     },
 
 
