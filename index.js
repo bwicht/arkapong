@@ -9,8 +9,10 @@ var Breakout = new Phaser.Class({
         Phaser.Scene.call(this, { key: 'breakout' });
 
         this.bricks;
-        this.paddle;
-        this.ball;
+        this.paddle1;
+        this.paddle2;
+        this.ball1;
+        this.ball2;
     },
 
     preload: function ()
@@ -28,7 +30,11 @@ var Breakout = new Phaser.Class({
             key: 'assets', frame: ['red1'],
             frameQuantity: 50,
             gridAlign: { width: 10, height: 6, cellWidth: 64, cellHeight: 32, x: 112, y: 300 }
-        });
+        })
+        
+        this.bricks.visible=false;
+
+
 
         this.ball = this.physics.add.image(400, 780, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ball.setData('onPaddle', true);
@@ -65,12 +71,7 @@ var Breakout = new Phaser.Class({
 
     hitBrick: function (ball, brick)
     {
-        brick.disableBody(true, true);
-
-        if (this.bricks.countActive() === 0)
-        {
-            this.resetLevel();
-        }
+        
     },
 
     resetBall: function ()
