@@ -13,13 +13,9 @@ var Breakout = new Phaser.Class({
         this.paddleTwo;
         this.ball;
         this.ballTwo;
-
-        this.cursorKeys = this.input.keyboard.createCursorKeys();
-
-        isDKeyPressed = cursorKeys.D.isDown;
-        isAKeyPressed = cursorKeys.A.isDown;
-        isLeftKeyPressed = cursorKeys.left.isDown;
-        isRightKeyPressed = cursorKeys.right.isDown;
+        this.invisibleSquare;
+        this.invisibleSquareTwo;
+        this.cursorKeys;
     },
 
     preload: function ()
@@ -30,7 +26,14 @@ var Breakout = new Phaser.Class({
     create: function ()
     {
 
-        
+        this.invisibleSquare = this.physics.add.staticImage(15,config.width/2,'assets','blue1');
+        this.invisibleSquare.visible=true;
+        this.invisibleSquare.angle = 90;
+        this.invisibleSquareTwo = this.physics.add.staticImage(785,config.width/2,'assets','blue1');
+        this.invisibleSquareTwo.angle = 90;
+        this.invisibleSquareTwo.visible=true;
+
+
         //  Enable world bounds, but disable the floor
         this.physics.world.setBoundsCollision(true, true, true, false);
 
@@ -38,10 +41,10 @@ var Breakout = new Phaser.Class({
         this.bricks = this.physics.add.staticGroup({
             key: 'assets', frame: ['red1'],
             frameQuantity: 50,
-            gridAlign: { width: 10, height: 6, cellWidth: 64, cellHeight: 32, x: 112, y: 300 }
+            gridAlign: { width: 10, height: 5, cellWidth: 64, cellHeight: 32, x: config.width/7, y: config.height/2.5 },
+            visible: true
         })
         
-        this.bricks.visible=false;
 
         var score1 = 0;
         var score2 = 0;
@@ -61,9 +64,6 @@ var Breakout = new Phaser.Class({
         this.ballTwo.setData('onPaddle', true);
         this.paddleTwo = this.physics.add.image(400, 20,'assets', 'paddle1').setImmovable();
 
-
-        
-
         //  Our colliders
 
         this.physics.add.collider(this.ballTwo, this.bricks, this.hitBrick, null, this);
@@ -72,24 +72,33 @@ var Breakout = new Phaser.Class({
         this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
-        //  Input event
-        
+        this.physics.add.collider(this.ball,this.invisibleSquare,this.hitBrick,null,this);
+        this.physics.add.collider(this.ball,this.invisibleSquareTwo,this.hitBrick,null,this);
 
-        if(isRightKeyPressed){
-            paddle.setVelocityX(100)
-        }
-        if (isLeftKeyPressed){
-            paddle.setVelocityX(-100)
-        }
+        //  Input events
 
-        if(isAKeyPressed){
-            paddleTwo.setVelocityX(-100)
-        }
-        if(isDKeyPressed){
-            paddleTwo.set.setVelocityX(100)
-        }
+        //this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-        /*this.input.on('pointermove', function (pointer) {
+        // var isDKeyPressed = cursorKeys.D.isDown;
+        // var isAKeyPressed = cursorKeys.A.isDown;
+        // var isLeftKeyPressed = cursorKeys.left.isDown;
+        // var isRightKeyPressed = cursorKeys.right.isDown;
+
+        // if(isRightKeyPressed===true){
+        //     paddle.setVelocityX(100)
+        // }
+        // if (isLeftKeyPressed===true){
+        //     paddle.setVelocityX(-100)
+        // }
+
+        // if(isAKeyPressed==true){
+        //     paddleTwo.setVelocityX(-100)
+        // }
+        // if(isDKeyPressed==true){
+        //     paddleTwo.set.setVelocityX(100)
+        // }
+
+        this.input.on('pointermove', function (pointer) {
 
             //  Keep the paddle within the game
             this.paddle.x = Phaser.Math.Clamp(pointer.x, 52, 748);
@@ -111,15 +120,18 @@ var Breakout = new Phaser.Class({
             }
 
         }, this); 
-        */
+       
     },
 
     
 
-    hitBrick: function (ball, brick)
+    hitBrick: function (ball, invisibleSquare,invisibleSquareTwo)
     {
-        
+        this.invisibleSquare.visible = false;
+        this.invisibleSquareTwo.visible = false;
+        this.bricks.visible = false;
     },
+
 
     resetBall: function ()
     {
@@ -161,17 +173,10 @@ var Breakout = new Phaser.Class({
             //  Add a little random X to stop it bouncing straight up!
             ball.setVelocityX(2 + Math.random() * 8);
         }
-
-        
-
-        
     },
 
     update: function ()
     {
-
-        
-        
         // var isDKeyPressed = cursorKeys.D.isDown;
         // var isAKeyPressed = cursorKeys.A.isDown;
         // var isLeftKeyPressed = cursorKeys.left.isDown;
@@ -197,13 +202,13 @@ var Breakout = new Phaser.Class({
 
         if (this.ball.y > 800 || this.ballTwo.y > 800)
         {
-            score1 += 1;
+            score1 ++;
             scoreText.setText("Score:" + score1 + score2);
             this.resetBall();
         }
         if (this.ball.y < 0 || this.ballTwo.y < 0){
 
-            score2 += 1;
+            score2 ++;
             scoreText.setText("Score:" + score1 + score2);
             this.resetBallTwo();
     }
