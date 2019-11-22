@@ -30,15 +30,23 @@ var Breakout = new Phaser.Class({
     preload: function ()
     {
         this.load.atlas('assets', 'breakout/breakout.png', 'breakout/breakout.json');
+        this.load.image('psyBrick1','assets/psychedelic_arkanoid_assets/brick_red.png');
+        this.load.image('background', 'assets/psychedelic_arkanoid_assets/BG_6.png');
+        this.load.image('paddle1', 'assets/psychedelic_arkanoid_assets/paddle_basic.png');
+        this.load.image('paddle2', 'assets/psychedelic_arkanoid_assets/paddle_basic_2.png');
+        this.load.image('psyBrick2', 'assets/psychedelic_arkanoid_assets/brick_green.png');
+
     },
 
     create: function ()
     {
 
-        this.invisibleSquare = this.physics.add.staticImage(15,config.width/2,'assets','blue1');
+        var background = this.add.image(400,400,'background');
+
+        this.invisibleSquare = this.physics.add.staticImage(15,config.width/2,'psyBrick2');
         this.invisibleSquare.visible=true;
         this.invisibleSquare.angle = 90;
-        this.invisibleSquareTwo = this.physics.add.staticImage(785,config.width/2,'assets','blue1');
+        this.invisibleSquareTwo = this.physics.add.staticImage(785,config.width/2,'psyBrick2');
         this.invisibleSquareTwo.angle = 90;
         this.invisibleSquareTwo.visible=true;
 
@@ -48,7 +56,7 @@ var Breakout = new Phaser.Class({
 
          //Create the bricks in a 10x6 grid
         this.bricks = this.physics.add.staticGroup({
-            key: 'assets', frame: ['green2'],
+            key: 'psyBrick1',
             frameQuantity: 50,
             gridAlign: { width: 10, height: 5, cellWidth: 64, cellHeight: 32, x: config.width/7, y: config.height/2.5 },
             visible: true
@@ -64,15 +72,15 @@ var Breakout = new Phaser.Class({
 
 
 
-        this.ball = this.physics.add.image(400, 750, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
+        this.ball = this.physics.add.image(400, 740, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ball.setData('onPaddle', true);
 
-        paddle = this.physics.add.image(400, 780, 'assets', 'paddle1').setImmovable();
+        paddle = this.physics.add.image(400, 780, 'paddle1').setImmovable();
 
 
-        this.ballTwo = this.physics.add.image(400, 50, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
+        this.ballTwo = this.physics.add.image(400, 60, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
         this.ballTwo.setData('onPaddle', true);
-        paddleTwo = this.physics.add.image(400, 20,'assets', 'paddle1').setImmovable();
+        paddleTwo = this.physics.add.image(400, 20, 'paddle2').setImmovable();
 
         //  Our colliders
 
