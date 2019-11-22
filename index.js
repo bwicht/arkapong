@@ -14,12 +14,14 @@ var Breakout = new Phaser.Class({
         this.ball;
         this.ballTwo;
 
-        this.cursorKeys = this.input.keyboard.createCursorKeys();
+        
 
-        isDKeyPressed = cursorKeys.D.isDown;
-        isAKeyPressed = cursorKeys.A.isDown;
-        isLeftKeyPressed = cursorKeys.left.isDown;
-        isRightKeyPressed = cursorKeys.right.isDown;
+        // this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+        // isDKeyPressed = cursorKeys.D.isDown;
+        // isAKeyPressed = cursorKeys.A.isDown;
+        // isLeftKeyPressed = cursorKeys.left.isDown;
+        // isRightKeyPressed = cursorKeys.right.isDown;
     },
 
     preload: function ()
@@ -32,7 +34,7 @@ var Breakout = new Phaser.Class({
 
         
         //  Enable world bounds, but disable the floor
-        this.physics.world.setBoundsCollision(true, true, true, false);
+        this.physics.world.setBoundsCollision(true, true, false, false);
 
         //  Create the bricks in a 10x6 grid
         this.bricks = this.physics.add.staticGroup({
@@ -43,9 +45,8 @@ var Breakout = new Phaser.Class({
         
         this.bricks.visible=false;
 
-        var score1 = 0;
-        var score2 = 0;
-        var scoreText;
+        
+
 
         scoreText = this.add.text(40,40, "SCORE: 0 vs 0",{ fontSize: '32px', fill: 'white' });
 
@@ -75,21 +76,21 @@ var Breakout = new Phaser.Class({
         //  Input event
         
 
-        if(isRightKeyPressed){
-            paddle.setVelocityX(100)
-        }
-        if (isLeftKeyPressed){
-            paddle.setVelocityX(-100)
-        }
+        // if(isRightKeyPressed){
+        //     paddle.setVelocityX(100)
+        // }
+        // if (isLeftKeyPressed){
+        //     paddle.setVelocityX(-100)
+        // }
 
-        if(isAKeyPressed){
-            paddleTwo.setVelocityX(-100)
-        }
-        if(isDKeyPressed){
-            paddleTwo.set.setVelocityX(100)
-        }
+        // if(isAKeyPressed){
+        //     paddleTwo.setVelocityX(-100)
+        // }
+        // if(isDKeyPressed){
+        //     paddleTwo.set.setVelocityX(100)
+        // }
 
-        /*this.input.on('pointermove', function (pointer) {
+        this.input.on('pointermove', function (pointer) {
 
             //  Keep the paddle within the game
             this.paddle.x = Phaser.Math.Clamp(pointer.x, 52, 748);
@@ -111,7 +112,7 @@ var Breakout = new Phaser.Class({
             }
 
         }, this); 
-        */
+        
     },
 
     
@@ -125,6 +126,12 @@ var Breakout = new Phaser.Class({
     {
         this.ball.setVelocity(0);
         this.ball.setPosition(this.paddle.x, 750);
+        this.ball.setData('onPaddle', true);
+    },
+
+    resetBallTwo: function(){
+        this.ball.setVelocity(0);
+        this.ball.setPosition(this.paddleTwo.x, 50);
         this.ball.setData('onPaddle', true);
     },
 
@@ -193,19 +200,22 @@ var Breakout = new Phaser.Class({
         // if(isDKeyPressed==true){
         //     paddleTwo.set.setVelocityX(100)
         // }
+
+        var score1 = 0;
+        var score2 = 0;
         
 
         if (this.ball.y > 800 || this.ballTwo.y > 800)
         {
             score1 += 1;
-            scoreText.setText("Score:" + score1 + score2);
+            scoreText.setText("Score:" + score1 + "vs" + score2);
             this.resetBall();
         }
-        if (this.ball.y < 0 || this.ballTwo.y < 0){
-
+        if (this.ball.y < 0 || this.ballTwo.y < 0)
+        {
             score2 += 1;
-            scoreText.setText("Score:" + score1 + score2);
-            this.resetBallTwo();
+            scoreText.setText("Score:" + score1 + "vs" + score2);
+            this.resetBall();
     }
 
     }
