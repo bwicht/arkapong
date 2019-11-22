@@ -22,6 +22,10 @@ var Breakout = new Phaser.Class({
         this.score1;
         this.score2;
         this.space;
+        this.p1Score = 0;
+        this.p2Score = 0;
+        this.score1Label;
+        this.score2Label;
 
     },
 
@@ -68,7 +72,11 @@ var Breakout = new Phaser.Class({
         
 
 
-        scoreText = this.add.text(40,40, "SCORE: 0 vs 0",{ fontSize: '32px', fill: 'white' });
+        //scoreText = this.add.text(40,40, "SCORE:",{ fontSize: '32px', fill: 'white' });
+
+        this.score1Label = this.add.text(40, 40, this.p1Score, {font: "50px Arial", fill: "black"});
+        this.score2Label = this.add.text(740, 740, this.p2Score, {font: "50px Arial", fill: "black"});
+        
 
 
 
@@ -175,25 +183,25 @@ var Breakout = new Phaser.Class({
             this.paddleTwo.setVelocityX(400);
         }
         
-    
-        var score1 = 0;
-        var score2 = 0;
+
         
 
         if (this.ball.y > 800 || this.ballTwo.y > 800)
         {
-            score1++;
-            scoreText.setText("Score:" + score1 + "vs" + score2);
+            this.p1Score++;
             this.resetBall();
             
         }
         if (this.ball.y < 0 || this.ballTwo.y < 0)
         {
-            score2++;
-            scoreText.setText("Score:" + score1 + "vs" + score2);
+            this.p2Score++;
             this.resetBallTwo();
             
     }
+
+    this.score1Label.setText(this.p1Score);
+    this.score2Label.setText(this.p2Score);
+
 
     }
 
