@@ -86,12 +86,16 @@ var Breakout = new Phaser.Class({
 
         this.physics.add.collider(this.ballTwo, this.bricks, this.hitBrick, null, this);
         this.physics.add.collider(this.ballTwo, paddleTwo, this.hitPaddle, null, this);
+        this.physics.add.collider(this.ball, paddleTwo, this.hitPaddle, null, this);
 
         this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
         this.physics.add.collider(this.ball, paddle, this.hitPaddle, null, this);
+        this.physics.add.collider(this.ballTwo, paddle, this.hitPaddle, null, this);
 
-        this.physics.add.collider(this.ball,this.invisibleSquare,this.hitBrick,null,this);
-        this.physics.add.collider(this.ball,this.invisibleSquareTwo,this.hitBrick,null,this);
+        this.physics.add.collider(this.ball, this.invisibleSquare,this.hitBrick,null,this);
+        this.physics.add.collider(this.ballTwo, this.invisibleSquare,this.hitBrick,null,this);
+        this.physics.add.collider(this.ball, this.invisibleSquareTwo,this.hitBrick,null,this);
+        this.physics.add.collider(this.ballTwo, this.invisibleSquareTwo,this.hitBrick,null,this);
 
         left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -220,13 +224,13 @@ var Breakout = new Phaser.Class({
         {
             score1++;
             scoreText.setText("Score:" + score1 + "vs" + score2);
-            this.resetBall();
+            
         }
         if (this.ball.y < 0 || this.ballTwo.y < 0)
         {
             score2++;
             scoreText.setText("Score:" + score1 + "vs" + score2);
-            this.resetBallTwo();
+            
     }
 
     }
