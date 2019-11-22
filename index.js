@@ -55,13 +55,14 @@ var Breakout = new Phaser.Class({
         this.physics.world.setBoundsCollision(true, true, false, false);
 
          //Create the bricks in a 10x6 grid
-        this.bricks = this.physics.add.staticGroup({
+        /* this.bricks = this.physics.add.staticGroup({
             key: 'psyBrick1',
             frameQuantity: 50,
             gridAlign: { width: 10, height: 5, cellWidth: 64, cellHeight: 32, x: config.width/7, y: config.height/2.5 },
             visible: true
-        })
+        }) */
 
+        this.brick = this.physics.add.staticImage(10,10,'red1.png')
 
         
 
