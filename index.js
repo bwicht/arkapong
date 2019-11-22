@@ -38,7 +38,7 @@ var Breakout = new Phaser.Class({
 
         //  Create the bricks in a 10x6 grid
         this.bricks = this.physics.add.staticGroup({
-            key: 'assets', frame: ['red1'],
+            key: 'assets', frame: ['green2'],
             frameQuantity: 50,
             gridAlign: { width: 10, height: 5, cellWidth: 64, cellHeight: 32, x: config.width/7, y: config.height/2.5 },
             visible: true
@@ -67,7 +67,7 @@ var Breakout = new Phaser.Class({
         this.physics.add.collider(this.ballTwo, this.bricks, this.hitBrick, null, this);
         this.physics.add.collider(this.ballTwo, this.paddleTwo, this.hitPaddle, null, this);
 
-        this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
+        this.physics.add.collider(this.ball, this.bricks, null, null, this);
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
         this.physics.add.collider(this.ball,this.invisibleSquare,this.hitBrick,null,this);
@@ -116,7 +116,7 @@ var Breakout = new Phaser.Class({
 
     hitBrick: function ()
     {   
-       Phaser.Actions.Call(this.bricks.getChildren(),v=>v.visible = false)
+       Phaser.Actions.Call(this.bricks.getChildren(),b =>b.visible ? b.visible = false : b.visible = true)
     },
 
 
