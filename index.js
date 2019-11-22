@@ -9,10 +9,11 @@ var Breakout = new Phaser.Class({
         Phaser.Scene.call(this, { key: 'breakout' });
 
         this.bricks;
-        this.paddle1;
-        this.paddle2;
-        this.ball1;
-        this.ball2;
+        this.paddle;
+        this.paddleTwo;
+        this.ball;
+        this.ballTwo;
+        this.cursorKeys;
     },
 
     preload: function ()
@@ -34,6 +35,12 @@ var Breakout = new Phaser.Class({
         
         this.bricks.visible=false;
 
+        var score1 = 0;
+        var score2 = 0;
+        var scoreText;
+
+        scoreText = this.add.text(40,40, "SCORE: 0 vs 0",{ fontSize: '32px', fill: 'white' });
+
 
 
         this.ball = this.physics.add.image(400, 780, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
@@ -41,15 +48,47 @@ var Breakout = new Phaser.Class({
 
         this.paddle = this.physics.add.image(400, 780, 'assets', 'paddle1').setImmovable();
 
+
+        this.ballTwo = this.physics.add.image(400, 20, 'assets', 'ball1').setCollideWorldBounds(true).setBounce(1);
+        this.ballTwo.setData('onPaddle', true);
+        this.paddleTwo = this.physics.add.image(400, 20,'assets', 'paddle1').setImmovable();
+
         //  Our colliders
+
+        this.physics.add.collider(this.ballTwo, this.bricks, this.hitBrick, null, this);
+        this.physics.add.collider(this.ballTwo, this.paddleTwo, this.hitPaddle, null, this);
+
         this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
         //  Input events
-        this.input.on('pointermove', function (pointer) {
+
+        //this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+        // var isDKeyPressed = cursorKeys.D.isDown;
+        // var isAKeyPressed = cursorKeys.A.isDown;
+        // var isLeftKeyPressed = cursorKeys.left.isDown;
+        // var isRightKeyPressed = cursorKeys.right.isDown;
+
+        // if(isRightKeyPressed===true){
+        //     paddle.setVelocityX(100)
+        // }
+        // if (isLeftKeyPressed===true){
+        //     paddle.setVelocityX(-100)
+        // }
+
+        // if(isAKeyPressed==true){
+        //     paddleTwo.setVelocityX(-100)
+        // }
+        // if(isDKeyPressed==true){
+        //     paddleTwo.set.setVelocityX(100)
+        // }
+
+        /*this.input.on('pointermove', function (pointer) {
 
             //  Keep the paddle within the game
             this.paddle.x = Phaser.Math.Clamp(pointer.x, 52, 748);
+            
 
             if (this.ball.getData('onPaddle'))
             {
@@ -66,8 +105,11 @@ var Breakout = new Phaser.Class({
                 this.ball.setData('onPaddle', false);
             }
 
-        }, this);
+        }, this); 
+        */
     },
+
+    
 
     hitBrick: function (ball, brick)
     {
@@ -118,10 +160,42 @@ var Breakout = new Phaser.Class({
 
     update: function ()
     {
-        if (this.ball.y > 800)
+        // var isDKeyPressed = cursorKeys.D.isDown;
+        // var isAKeyPressed = cursorKeys.A.isDown;
+        // var isLeftKeyPressed = cursorKeys.left.isDown;
+        // var isRightKeyPressed = cursorKeys.right.isDown;
+
+// if(this.cursorKeys.A.isDown){
+//     paddle.setVelocityX(-100)
+// }
+        // if(isRightKeyPressed===true){
+        //     paddle.setVelocityX(100)
+        // }
+        // if (isLeftKeyPressed===true){
+        //     paddle.setVelocityX(-100)
+        // }
+
+        // if(isAKeyPressed==true){
+        //     paddleTwo.setVelocityX(-100)
+        // }
+        // if(isDKeyPressed==true){
+        //     paddleTwo.set.setVelocityX(100)
+        // }
+        
+
+        if (this.ball.y > 800 || this.ballTwo.y > 800)
         {
+            score1 += 1;
+            scoreText.setText("Score:" + score + score2);
             this.resetBall();
         }
+        if (this.ball.y < 0 || this.ballTwo.y < 0){
+
+            score2 += 1;
+            scoreText.setText("Score:" + score + score2);
+            this.resetBallTwo();
+    }
+
     }
 
 });
